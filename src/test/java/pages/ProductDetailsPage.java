@@ -1,5 +1,6 @@
 package pages;
 
+import models.AppleCinemaModel;
 import net.serenitybdd.core.pages.PageObject;
 import org.openqa.selenium.By;
 import utils.DriverUtils;
@@ -12,15 +13,15 @@ import java.time.Duration;
 
 public class ProductDetailsPage extends PageObject {
 
-    public void makeOrder() {
-        new DriverUtils().clickOnElementJS($(String.format("//label//input[@type = 'radio' and @value = '%s']", 5)));
-        $(String.format("(//input[@type='checkbox'])[%s]", 1)).click();
-        $("//input[@id='input-option208']").sendKeys("some text");
-        $(String.format("(//div[@class='radio'])[%s]", 1)).click();
+    public void makeOrder(AppleCinemaModel appleCinemaModel) {
+        new DriverUtils().clickOnElementJS($(String.format("//label//input[@type = 'radio' and @value = '%s']", appleCinemaModel.getRadio())));
+        $(String.format("(//input[@type='checkbox'])[%s]", appleCinemaModel.getCheckbox())).click();
+        $("//input[@id='input-option208']").sendKeys(appleCinemaModel.getText());
         $("//select[@id='input-option217']").click();
-        $(String.format("//option[@value='%s']", 4)).click();
-        $("//textarea[@id='input-option209']").sendKeys("some text in textarea");
-        File file = new File("src/test/resources/test.txt");
+        $(String.format("//option[@value='%s']",appleCinemaModel.getSelect())).click();
+        $("//textarea[@id='input-option209']").sendKeys(appleCinemaModel.getTextarea());
+
+        File file = new File(appleCinemaModel.getFile());
         StringSelection absolutePath = new StringSelection(file.getAbsolutePath());
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(absolutePath, null);
         $(By.id("button-upload222")).click();
